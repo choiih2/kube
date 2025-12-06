@@ -1,0 +1,30 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: fuzzer-job
+spec:
+  ttlSecondsAfterFinished: 300
+  template:
+    metadata:
+      labels:
+        app: fuzzer
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: fuzzer
+        image: fuzzer:latest
+        imagePullPolicy: Never
+        command: ["python3", "main.py"]
+        args:
+          - "--url"
+          - "http://web-service"  
+          - "--output"
+          - "/app/results/fuzz_report.txt"
+        volumeMounts:
+        - name: results
+          mountPath: /app/results
+      volumes:
+      - name: results
+        persistentVolumeClaim:
+          claimName: fuzzer-results-pvc
+  backoffLimit: 3

@@ -1,0 +1,22 @@
+FROM python:3.9-slim
+
+WORKDIR /app
+
+# 필요한 패키지 설치
+RUN pip install --no-cache-dir \
+    requests \
+    pymysql \
+    beautifulsoup4 \
+    lxml
+
+# Fuzzer 코드 복사
+COPY main.py .
+COPY core/ ./core/
+COPY payloads/ ./payloads/
+COPY wordlists/ ./wordlists/
+
+# 결과 디렉토리 생성
+RUN mkdir -p /app/results
+
+# web-service를 타겟으로 실행
+CMD ["python3", "main.py", "--url", "http://web-service", "--sqli", "--xss"]
