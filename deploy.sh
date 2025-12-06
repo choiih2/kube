@@ -31,7 +31,8 @@ kubectl apply -f k8s/web/web-service.yaml
 
 
 echo "[6/6] Starting Fuzzer Job..."
-kubectl apply -f k8s/fuzzer/fuzzer-job.yaml
+kubectl apply -f k8s/fuzzer/fuzzer-job-xss.yaml
+kubectl apply -f k8s/fuzzer/fuzzer-job-sqli.yaml
 
 echo ""
 echo "================================="

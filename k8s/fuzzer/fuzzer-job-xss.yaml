@@ -1,0 +1,55 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: fuzzer-job-xss
+spec:
+  ttlSecondsAfterFinished: 3600
+  template:
+    metadata:
+      labels:
+        app: fuzzer
+        task: xss
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: fuzzer-xss
+        image: fuzzer:latest
+        imagePullPolicy: Never
+        command: ["python3", "main.py"]
+        args:
+          - "--url"
+          - "http://web-service"
+          - "--xss"
+          - "--output"
+          - "/app/results/fuzz_report_xss.txt"
+        env:
+        - name: MYSQL_HOST
+          value: "mysql-service"
+        - name: MYSQL_PORT
+          value: "3306"
+        - name: MYSQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: MYSQL_USER
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: MYSQL_PASSWORD
+        - name: MYSQL_DATABASE
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: MYSQL_DATABASE
+        - name: WEB_URL
+          value: "http://web-service"
+        volumeMounts:
+        - name: results
+          mountPath: /app/results
+      volumes:
+      - name: results
+        persistentVolumeClaim:
+          claimName: fuzzer-results-pvc
+  backoffLimit: 3
+

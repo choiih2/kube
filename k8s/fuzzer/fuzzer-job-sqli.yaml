@@ -1,25 +1,27 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: fuzzer-job
+  name: fuzzer-job-sqli
 spec:
-  ttlSecondsAfterFinished: 300
+  ttlSecondsAfterFinished: 3600
   template:
     metadata:
       labels:
         app: fuzzer
+        task: sqli
     spec:
       restartPolicy: Never
       containers:
-      - name: fuzzer
+      - name: fuzzer-sqli
         image: fuzzer:latest
         imagePullPolicy: Never
         command: ["python3", "main.py"]
         args:
           - "--url"
-          - "http://web-service"  
+          - "http://web-service"
+          - "--sqli"
           - "--output"
-          - "/app/results/fuzz_report.txt"
+          - "/app/results/fuzz_report_sqli.txt"
         env:
         - name: MYSQL_HOST
           value: "mysql-service"
@@ -40,7 +42,7 @@ spec:
             secretKeyRef:
               name: mysql-secret
               key: MYSQL_DATABASE
-        - name: WEB_URL  # 이 부분 추가
+        - name: WEB_URL
           value: "http://web-service"
         volumeMounts:
         - name: results
@@ -50,3 +52,4 @@ spec:
         persistentVolumeClaim:
           claimName: fuzzer-results-pvc
   backoffLimit: 3
+
