@@ -14,8 +14,7 @@ spec:
     spec:
       containers:
       - name: web
-        image: web-app:latest
-        imagePullPolicy: Never
+        image: choiih/web-app:latest
         ports:
         - containerPort: 80
         env:

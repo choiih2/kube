@@ -10,19 +10,19 @@ echo ""
 
 # Web Application
 echo "[1/3] Building web-app..."
-docker build -t web-app:latest ./web
+docker build -t choiih/web-app:latest ./web
 echo "✅ web-app built"
 echo ""
 
 # Database
 echo "[2/3] Building database..."
-docker build -t mysql-custom:latest ./db
+docker build -t choiih/db:latest ./db
 echo "✅ database built"
 echo ""
 
 # Fuzzer
 echo "[3/3] Building fuzzer..."
-docker build -t fuzzer:latest -f dockerfile.fuzzer .
+docker build -t choiih/fuzzer:latest -f dockerfile.fuzzer .
 echo "✅ fuzzer built"
 echo ""
 

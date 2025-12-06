@@ -12,8 +12,7 @@ spec:
       restartPolicy: Never
       containers:
       - name: fuzzer
-        image: fuzzer:latest
-        imagePullPolicy: Never
+        image: choiih/fuzzer:latest
         command: ["python3", "main.py"]
         args:
           - "--url"
