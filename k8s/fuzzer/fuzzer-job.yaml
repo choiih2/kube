@@ -1,27 +1,25 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: fuzzer-job-sqli
+  name: fuzzer-job
 spec:
   ttlSecondsAfterFinished: 3600
   template:
     metadata:
       labels:
         app: fuzzer
-        task: sqli
     spec:
       restartPolicy: Never
       containers:
-      - name: fuzzer-sqli
+      - name: fuzzer
         image: fuzzer:latest
         imagePullPolicy: Never
         command: ["python3", "main.py"]
         args:
           - "--url"
           - "http://web-service"
-          - "--sqli"
           - "--output"
-          - "/app/results/fuzz_report_sqli.txt"
+          - "/app/results/fuzz_report.txt"
         env:
         - name: MYSQL_HOST
           value: "mysql-service"
