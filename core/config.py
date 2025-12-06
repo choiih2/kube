@@ -1,3 +1,5 @@
+import os
+
 # core/config.py
 DIR_WORDLIST = "wordlists/directories.txt"
 SQLI_ERROR_FILE = "payloads/sqli_error.txt"

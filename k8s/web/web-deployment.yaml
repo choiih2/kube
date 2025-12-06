@@ -14,7 +14,8 @@ spec:
     spec:
       containers:
       - name: web
-        image: php:7.4-apache
+        image: web-app:latest
+        imagePullPolicy: Never
         ports:
         - containerPort: 80
         env:

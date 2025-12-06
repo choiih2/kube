@@ -1,8 +1,10 @@
 # core/login.py
+import os
 from core.session import fetch
 
 def do_login():
-    LOGIN_URL = "http://localhost:5000/login.php"
+    base_url = os.getenv("WEB_URL", "http://localhost:5000")
+    LOGIN_URL = f"{base_url}/login.php"
     payload = {
         "email": "admin@test.com",
         "password": "admin123",

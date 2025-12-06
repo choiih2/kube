@@ -20,6 +20,28 @@ spec:
           - "http://web-service"  
           - "--output"
           - "/app/results/fuzz_report.txt"
+        env:
+        - name: MYSQL_HOST
+          value: "mysql-service"
+        - name: MYSQL_PORT
+          value: "3306"
+        - name: MYSQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: MYSQL_USER
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: MYSQL_PASSWORD
+        - name: MYSQL_DATABASE
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: MYSQL_DATABASE
+        - name: WEB_URL  # 이 부분 추가
+          value: "http://web-service"
         volumeMounts:
         - name: results
           mountPath: /app/results
