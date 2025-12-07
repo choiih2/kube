@@ -7,10 +7,6 @@ TOTAL_REQUESTS = 0
 DEBUG_RESPONSE_SNIPPET_LEN = 200
 
 def fetch(url, method="GET", debug=False, **kwargs):
-    """
-    기존 코드와 동일한 동작을 하도록 구현.
-    returns: (Response or None, elapsed_seconds)
-    """
     global TOTAL_REQUESTS
     try:
         start = time.time()
@@ -36,7 +32,7 @@ def fetch(url, method="GET", debug=False, **kwargs):
             print(r.text[:DEBUG_RESPONSE_SNIPPET_LEN])
             print("────────────────────────────────────────\n")
             print("\n[DEBUG HTML SNIPPET]")
-            print(r.text[:400])   # 앞 400자만
+            print(r.text[:400])
             print("-" * 80)
 
         return r, elapsed
